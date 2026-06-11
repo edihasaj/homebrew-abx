@@ -6,10 +6,16 @@ class Abx < Formula
   version "0.1.1"
   license "MIT"
 
+  depends_on "bun"
   depends_on macos: :ventura
 
+  # The thin CLI is a compiled universal binary; the server runs under bun from
+  # a bundle next to its vendored Playwright (Playwright can't be statically
+  # compiled — it reads its package files from node_modules at runtime). The
+  # CLI resolves ../libexec/abx-server.js relative to itself.
   def install
-    bin.install "abx", "abx-server"
+    bin.install "abx"
+    libexec.install "abx-server.js", "node_modules"
   end
 
   def caveats
@@ -18,8 +24,7 @@ class Abx < Formula
 
         abx install-browser
 
-      That needs bun or node on PATH (brew install bun). Or point abx at an
-      existing browser instead:
+      Or point abx at an existing browser instead:
 
         export ABX_CHROMIUM_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     EOS
