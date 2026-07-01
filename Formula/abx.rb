@@ -1,9 +1,9 @@
 class Abx < Formula
   desc "Fast headless browser for AI coding agents"
   homepage "https://github.com/edihasaj/abx"
-  url "https://github.com/edihasaj/abx/releases/download/v0.1.2/abx-0.1.2-macos-universal.tar.gz"
-  sha256 "25113a91599bb8bbb85af3c78944675458200e4f4bd302289c4f17ef75810fd4"
-  version "0.1.2"
+  url "https://github.com/edihasaj/abx/releases/download/v0.1.3/abx-0.1.3-macos-universal.tar.gz"
+  sha256 "b90ffe46d5429177e8d39966d576e8409b87f6be10462942d8b0bd866b14b3be"
+  version "0.1.3"
   license "MIT"
 
   depends_on "bun"
@@ -34,6 +34,6 @@ class Abx < Formula
   end
 
   test do
-    assert_match "0.1.2", shell_output("#{bin}/abx --version")
+    assert_match "0.1.3", shell_output("#{bin}/abx --version")
   end
 end
