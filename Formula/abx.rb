@@ -7,6 +7,7 @@ class Abx < Formula
   license "MIT"
 
   depends_on "bun"
+  depends_on "node" # runtime for the live-Chrome driver (libexec/live.mjs)
   depends_on macos: :ventura
 
   # The thin CLI is a compiled universal binary; the server runs under bun from
@@ -16,6 +17,8 @@ class Abx < Formula
   def install
     bin.install "abx"
     libexec.install "abx-server.js", "node_modules"
+    # live.mjs ships from v0.1.3+; guard so older tarballs still install cleanly.
+    libexec.install "live.mjs" if File.exist?("live.mjs")
   end
 
   def caveats
