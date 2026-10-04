@@ -7,8 +7,8 @@ class Abx < Formula
   license "MIT"
 
   depends_on "bun"
-  depends_on "node" # runtime for the live-Chrome driver (libexec/live.mjs)
   depends_on macos: :ventura
+  depends_on "node@24" # LTS runtime for the live-Chrome driver (libexec/live.mjs)
 
   # The thin CLI is a compiled universal binary; the server runs under bun from
   # a bundle next to its vendored Playwright (Playwright can't be statically
@@ -19,6 +19,11 @@ class Abx < Formula
     libexec.install "abx-server.js", "node_modules"
     # live.mjs ships from v0.1.3+; guard so older tarballs still install cleanly.
     libexec.install "live.mjs" if File.exist?("live.mjs")
+    # abx >= 0.1.12 runs live.mjs with libexec/node. Link the pinned LTS through
+    # its opt path so Node patch upgrades never move it.
+    # Absolute link on purpose: install_symlink would store a relative path into
+    # the versioned Cellar dir, which a node@24 patch upgrade deletes.
+    (libexec/"node").make_symlink(HOMEBREW_PREFIX/"opt/node@24/bin/node")
   end
 
   def caveats
